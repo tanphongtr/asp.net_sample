@@ -44,5 +44,7 @@ ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
 ```
 
 
+```
 dotnet dev-certs https --clean
 dotnet dev-certs https --trust
+```
