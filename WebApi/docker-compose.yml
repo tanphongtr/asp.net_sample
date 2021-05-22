@@ -1,0 +1,43 @@
+version: "3.7"
+services:
+    app:
+        image: mcr.microsoft.com/dotnet/sdk:5.0
+        container_name: ${PREFIX_}${APP_CONTAINER_NAME}
+        environment: 
+            - ASPNETCORE_URLS=http://+:80
+            - DOTNET_USE_POLLING_FILE_WATCHER=1
+        volumes:
+            - .:/app
+        ports:
+            - 8789:80
+        working_dir: /app
+        command: bash -c "dotnet restore && dotnet watch run --no-launch-profile"
+
+        # container_name: ${PREFIX_}${APP_CONTAINER_NAME}
+        # build: .
+        # ports:
+        #     - ${APP_PUBLIC_PORT}:80
+
+        # env_file:
+        #     - .env
+
+        restart: ${APP_CONTAINER_RESTART}
+        depends_on: 
+            - mssql
+
+    mssql:
+        container_name: ${PREFIX_}${MSSQL_CONTAINER_NAME}
+        image: "mcr.microsoft.com/mssql/server"
+        ports: 
+            - ${MSSQL_PUBLIC_PORT}:1433
+        
+        # command: sh -c "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Your_password123 -Q 'CREATE DATABASE testdb;'"
+
+
+        volumes:
+            - ./data/db/mssql/scripts:/scripts/
+        environment:
+            SA_PASSWORD: "${MSSQL_SA_PASSWORD}"
+            ACCEPT_EULA: "Y"
+            MSSQL_DB: ${MSSQL_DB}
+        restart: ${MSSQL_CONTAINER_RESTART}

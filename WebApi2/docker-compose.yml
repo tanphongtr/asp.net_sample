@@ -1,0 +1,36 @@
+version: "3.7"
+services:
+    app:
+        container_name: ${PREFIX_}${APP_CONTAINER_NAME}
+        build: .
+        volumes:
+            - .:/app
+            - ./https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+        ports:
+            - ${APP_PUBLIC_PORT}:5001
+        working_dir: /app
+        command: bash -c "dotnet watch run --no-launch-profile"
+
+        env_file:
+            - .env
+
+        restart: ${APP_CONTAINER_RESTART}
+        depends_on: 
+            - mssql
+
+    mssql:
+        container_name: ${PREFIX_}${MSSQL_CONTAINER_NAME}
+        image: "mcr.microsoft.com/mssql/server"
+        ports: 
+            - ${MSSQL_PUBLIC_PORT}:1433
+        
+        # command: sh -c "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Your_password123 -Q 'CREATE DATABASE testdb;'"
+
+
+        volumes:
+            - ./data/db/mssql/scripts:/scripts/
+        environment:
+            SA_PASSWORD: "${MSSQL_SA_PASSWORD}"
+            ACCEPT_EULA: "Y"
+            MSSQL_DB: ${MSSQL_DB}
+        restart: ${MSSQL_CONTAINER_RESTART}
