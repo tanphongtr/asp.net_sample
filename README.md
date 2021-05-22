@@ -38,7 +38,6 @@ Run command App in Docker
 dotnet dev-certs https -ep aspnetapp.pfx -p mypassword123
 ```
 Copy aspnetapp.pfx to /https
-dotnet dev-certs https --trust
 
 Add to Environment file
 ```
