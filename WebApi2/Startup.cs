@@ -41,7 +41,11 @@ namespace WebApi2
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi2 v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi2 v1");
+                    c.DefaultModelsExpandDepth(-1);
+                });
             }
 
             app.UseHttpsRedirection();

@@ -28,10 +28,6 @@ dotnet list package
 dotnet pack
 dotnet restore
 ```
-
-Dockerfile for production
-https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/docker/building-net-docker-images?view=aspnetcore-5.0#the-dockerfile
-
 ## Setup https for Docker
 Run command App in Docker
 ```
@@ -53,3 +49,10 @@ ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
 dotnet dev-certs https --clean
 dotnet dev-certs https --trust
 ```
+
+
+## Docs
+https://www.mattbutton.com/docker-for-web-developers/
+
+Dockerfile for production
+https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/docker/building-net-docker-images?view=aspnetcore-5.0#the-dockerfile
